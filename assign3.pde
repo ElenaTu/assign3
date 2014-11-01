@@ -97,7 +97,20 @@ void setBombs(){
   }
   // -------------- put your code here ---------
   // randomly set bombs
+   
+  int i = bombCount;
+   while (i!=0) {
+    int bombCol=(int)random(0, 4);
+    int bombRow=(int)random(0, 4);
 
+    if (slot[bombCol][bombRow] == SLOT_BOMB) {
+      continue;
+    } else {
+      slot[bombCol][bombRow]=SLOT_BOMB;
+      i--;
+    }    
+    println(bombCol, bombRow);
+  }
   // ---------------------------------------
 }
 
@@ -174,7 +187,21 @@ void mousePressed(){
        mouseY >= iy && mouseY <= iy+sideLength){
     
     // --------------- put you code here -------     
-
+    int col=(mouseX-ix) / (sideLength/ nSlot);
+    int row=(mouseY-iy) / (sideLength/ nSlot);
+    if (slot[col][row]==SLOT_BOMB) {
+      showSlot(col, row, SLOT_BOMB);
+      gameState=GAME_LOSE;
+    }
+    else{
+      showSlot(col, row, SLOT_SAFE);
+      clickCount++;
+    }
+    if (clickCount== (nSlot*nSlot)-bombCount){
+      gameState=GAME_WIN;
+    }
+      
+      
     // -------------------------
     
   }
